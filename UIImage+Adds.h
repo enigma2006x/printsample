@@ -14,4 +14,7 @@
 + (UIImage *) maskImage:(UIImage *)image
                withMask:(UIImage *)maskImage;
 
++ (UIImage *)imageWithImage:(UIImage *)image
+               scaledToSize:(CGSize)newSize;
+
 @end

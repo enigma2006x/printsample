@@ -44,13 +44,14 @@
 
 - (void) loadTumblrImages{
  
+    __weak UITableView *table = _tableview;
+    
     [self.source setCompletedResponseBlock:^(TumblrStatus completed){
         
         if(completed == TumblrStatusCompleted){
             
             
-            NSLog(@"response true");
-            [self.tableview reloadData];
+            [table reloadData];
             
         }
         

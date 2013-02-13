@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="NbS-PV-YPj">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="NbS-PV-YPj">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
     <scenes>
         <!--View Controller - Collage-->
@@ -173,16 +173,17 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aRr-Tv-O0I">
                                 <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fu4-Sy-crC">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fu4-Sy-crC">
                                 <constraints>
                                     <constraint firstAttribute="width" constant="43" id="aWL-8b-49p"/>
+                                    <constraint firstAttribute="height" constant="44" id="d7a-bw-PT7"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Button">
+                                <state key="normal" title="Button" image="check_false.png">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <state key="highlighted">
+                                <state key="highlighted" image="check_true.png">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -221,10 +222,13 @@
                         <subviews>
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="reS-bj-h8c">
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="459" id="fWa-IX-kMg"/>
+                                </constraints>
                             </webView>
                             <navigationBar contentMode="scaleToFill" barStyle="blackOpaque" translatesAutoresizingMaskIntoConstraints="NO" id="8DC-6k-1ff">
                                 <items>
-                                    <navigationItem title="Print in webview" id="u2b-xn-Cq0">
+                                    <navigationItem title="Print webview" id="u2b-xn-Cq0">
                                         <barButtonItem key="leftBarButtonItem" title="done" style="done" id="wjH-iN-TmH">
                                             <connections>
                                                 <action selector="done:" destination="Cm4-YY-V58" id="YF0-hv-dro"/>
@@ -238,6 +242,24 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackOpaque" translatesAutoresizingMaskIntoConstraints="NO" id="Txf-43-gdD">
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="mYd-Re-T3H"/>
+                                    <barButtonItem style="plain" id="oMQ-rM-NeH">
+                                        <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="HU9-qY-55Y">
+                                            <rect key="frame" x="9" y="7" width="302" height="32"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <segments>
+                                                <segment title="top - left"/>
+                                                <segment title="middle - center"/>
+                                                <segment title="bottom - right"/>
+                                            </segments>
+                                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        </segmentedControl>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Bbg-j3-9gr"/>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -247,16 +269,19 @@
                             <constraint firstItem="8DC-6k-1ff" firstAttribute="top" secondItem="Zdv-A4-Ciz" secondAttribute="top" type="default" id="LXn-TI-U6N"/>
                             <constraint firstItem="reS-bj-h8c" firstAttribute="top" secondItem="8DC-6k-1ff" secondAttribute="bottom" type="default" id="VbD-jd-dd0"/>
                             <constraint firstItem="8DC-6k-1ff" firstAttribute="leading" secondItem="Zdv-A4-Ciz" secondAttribute="leading" type="default" id="Zdh-SK-cfV"/>
-                            <constraint firstItem="reS-bj-h8c" firstAttribute="bottom" secondItem="Zdv-A4-Ciz" secondAttribute="bottom" type="default" id="auo-f9-7ab"/>
+                            <constraint firstItem="Txf-43-gdD" firstAttribute="leading" secondItem="Zdv-A4-Ciz" secondAttribute="leading" type="default" id="ncg-tG-BGl"/>
+                            <constraint firstItem="Txf-43-gdD" firstAttribute="top" secondItem="reS-bj-h8c" secondAttribute="bottom" type="default" id="ptp-tL-efk"/>
+                            <constraint firstItem="Txf-43-gdD" firstAttribute="trailing" secondItem="Zdv-A4-Ciz" secondAttribute="trailing" type="default" id="wqz-at-jQy"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="printPositionSegment" destination="HU9-qY-55Y" id="0nH-KZ-GKm"/>
                         <outlet property="webview" destination="reS-bj-h8c" id="uhs-pv-m0D"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HOw-fL-ceU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2010" y="739"/>
+            <point key="canvasLocation" x="1569" y="763"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Xuz-ig-4kN">
@@ -296,7 +321,83 @@
             </objects>
             <point key="canvasLocation" x="995" y="0.0"/>
         </scene>
+        <!--Print Image View Controller-->
+        <scene sceneID="emR-ED-xFx">
+            <objects>
+                <viewController storyboardIdentifier="printimage" id="vzW-IP-W0H" customClass="PrintImageViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="u2b-gv-n24">
+                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" barStyle="blackOpaque" translatesAutoresizingMaskIntoConstraints="NO" id="k8J-Wn-bvk">
+                                <items>
+                                    <navigationItem title="Print image" id="rT4-Nw-QHl">
+                                        <barButtonItem key="leftBarButtonItem" title="done" style="done" id="ub4-BS-ngt">
+                                            <connections>
+                                                <action selector="done:" destination="vzW-IP-W0H" id="HzS-2D-saQ"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="bHq-4w-BBg">
+                                            <connections>
+                                                <action selector="printAction:" destination="vzW-IP-W0H" id="Pn5-iZ-6as"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackOpaque" translatesAutoresizingMaskIntoConstraints="NO" id="2wt-9o-ul9">
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="b0p-6m-BYm"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Kzz-F8-CFh"/>
+                                    <barButtonItem style="plain" id="GwP-ui-3tt">
+                                        <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="ZwR-bv-90y">
+                                            <rect key="frame" x="9" y="7" width="302" height="32"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <segments>
+                                                <segment title="mosaic"/>
+                                                <segment title="middle-center"/>
+                                            </segments>
+                                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        </segmentedControl>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="kWC-AR-W1M"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="QGL-sn-SZG"/>
+                                </items>
+                            </toolbar>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bpj-w4-x7t">
+                                <color key="backgroundColor" red="0.60000002384185791" green="0.60000002384185791" blue="0.60000002384185791" alpha="1" colorSpace="deviceRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="459" id="ekQ-SL-2z3"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="bpj-w4-x7t" firstAttribute="trailing" secondItem="u2b-gv-n24" secondAttribute="trailing" type="default" id="1lK-jT-R9V"/>
+                            <constraint firstItem="k8J-Wn-bvk" firstAttribute="trailing" secondItem="u2b-gv-n24" secondAttribute="trailing" type="default" id="Eg4-jB-qzy"/>
+                            <constraint firstItem="bpj-w4-x7t" firstAttribute="leading" secondItem="u2b-gv-n24" secondAttribute="leading" type="default" id="Ftw-mO-ymv"/>
+                            <constraint firstItem="k8J-Wn-bvk" firstAttribute="leading" secondItem="u2b-gv-n24" secondAttribute="leading" type="default" id="HYe-1L-dHb"/>
+                            <constraint firstItem="k8J-Wn-bvk" firstAttribute="top" secondItem="u2b-gv-n24" secondAttribute="top" type="default" id="U1o-Q3-TUs"/>
+                            <constraint firstItem="2wt-9o-ul9" firstAttribute="trailing" secondItem="u2b-gv-n24" secondAttribute="trailing" type="default" id="XX7-mS-jRj"/>
+                            <constraint firstItem="2wt-9o-ul9" firstAttribute="top" secondItem="bpj-w4-x7t" secondAttribute="bottom" type="default" id="ckx-bR-Huf"/>
+                            <constraint firstItem="bpj-w4-x7t" firstAttribute="top" secondItem="k8J-Wn-bvk" secondAttribute="bottom" type="default" id="igz-mS-aXs"/>
+                            <constraint firstItem="2wt-9o-ul9" firstAttribute="leading" secondItem="u2b-gv-n24" secondAttribute="leading" type="default" id="px8-5F-4sH"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageview" destination="bpj-w4-x7t" id="ihG-Jr-90c"/>
+                        <outlet property="printPositionSegment" destination="ZwR-bv-90y" id="0MG-bV-hrz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ElS-4i-D8i" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2103" y="780"/>
+        </scene>
     </scenes>
+    <resources>
+        <image name="check_false.png" width="128" height="127"/>
+        <image name="check_true.png" width="128" height="127"/>
+    </resources>
     <classes>
         <class className="ImagePageViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ImagePageViewController.h"/>
@@ -309,6 +410,7 @@
         <class className="MaskViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MaskViewController.h"/>
             <relationships>
+                <relationship kind="action" name="printOptions:"/>
                 <relationship kind="outlet" name="container" candidateClass="UIView"/>
                 <relationship kind="outlet" name="printButton" candidateClass="UIBarButtonItem"/>
             </relationships>
@@ -316,7 +418,23 @@
         <class className="NSLayoutConstraint" superclassName="NSObject">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
         </class>
-        <class className="PrintWebViewController" superclassName="UIViewController">
+        <class className="PrintBaseViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PrintBaseViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="done:"/>
+                <relationship kind="action" name="printAction:"/>
+                <relationship kind="outlet" name="printPositionSegment" candidateClass="UISegmentedControl"/>
+            </relationships>
+        </class>
+        <class className="PrintImageViewController" superclassName="PrintBaseViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PrintImageViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="done:"/>
+                <relationship kind="action" name="printAction:"/>
+                <relationship kind="outlet" name="imageview" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="PrintWebViewController" superclassName="PrintBaseViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PrintWebViewController.h"/>
             <relationships>
                 <relationship kind="action" name="done:"/>

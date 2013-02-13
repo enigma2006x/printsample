@@ -14,7 +14,7 @@
 
 
 
-@interface MaskViewController ()<UIActionSheetDelegate, PrintWebViewControllerDataSource, ImagePageViewControllerDelegate, PrintWebViewControllerDelegate, ImagePageViewControllerDataSource>{
+@interface MaskViewController ()<UIActionSheetDelegate, ImagePageViewControllerDelegate, ImagePageViewControllerDataSource, PrintBaseViewControllerDataSource, PrintBaseViewControllerDelegate>{
     NSInteger indexImageToPrint;
 }
 
@@ -90,9 +90,14 @@
 
 - (IBAction)printOptions:(id)sender {
     
+    if(![self hasBtnSelected]){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Print Sample" message:@"For continue, please select an image..." delegate:nil cancelButtonTitle:@"accept" otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
     
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Imprimir" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Inside WebView",
-                                  @"Custom Layout",
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Print Options" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"WebView",
+                                  @"View",
                                   nil];
     
     UIBarButtonItem *btn = (UIBarButtonItem *) sender;
@@ -102,8 +107,6 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet
     clickedButtonAtIndex:(NSInteger)buttonIndex{
-    
-    NSLog(@"buttonIndex:%d", buttonIndex);
     
     if(buttonIndex == 0){
         
@@ -119,6 +122,19 @@
 }
 
 #pragma mark - UIPageViewController Methods
+
+- (BOOL) hasBtnSelected{
+
+    for(ImagePageViewController *controller in self.pageViewController.viewControllers){
+        
+        if(controller.btnSelection.highlighted){
+            return YES;
+        }
+        
+    }
+ 
+    return NO;
+}
 
 - (void) hideBtnSelectionInControllers{
     for(ImagePageViewController *controller in self.pageViewController.viewControllers){
@@ -218,54 +234,13 @@
 #pragma mark - HTML Print
 
 - (void) launchUIImagePrint{
-    UIPrintInteractionController *controller = [UIPrintInteractionController sharedPrintController];
-    if(!controller){
-        NSLog(@"Couldn't get shared UIPrintInteractionController!");
-        return;
-    }
     
-    UIPrintInteractionCompletionHandler completionHandler =
-    ^(UIPrintInteractionController *printController, BOOL completed, NSError *error) {
-        if(!completed && error){
-            NSLog(@"FAILED! due to error in domain %@ with error code %u", error.domain, error.code);
-        }
-    };
-    
-    
-    // Obtain a printInfo so that we can set our printing defaults.
-    UIPrintInfo *printInfo = [UIPrintInfo printInfo];
-    // This application produces General content that contains color.
-    printInfo.outputType = UIPrintInfoOutputGeneral;
-    // We'll use the URL as the job name.
-    //printInfo.jobName = [self.urlField text];
-    // Set duplex so that it is available if the printer supports it. We are
-    // performing portrait printing so we want to duplex along the long edge.
-    printInfo.duplex = UIPrintInfoDuplexLongEdge;
-    // Use this printInfo for this print job.
-    controller.printInfo = printInfo;
-    
-    // Be sure the page range controls are present for documents of > 1 page.
-    controller.showsPageRange = YES;
-    
-    // This code uses a custom UIPrintPageRenderer so that it can draw a header and footer.
-    ImagePrintPageRenderer *pageRender = [[ImagePrintPageRenderer alloc] init];
-    pageRender.image = [UIImage screenshotForView:self.container];
-    // The APLPrintPageRenderer class provides a jobtitle that it will label each page with.
-    
-
-    // Set our custom renderer as the printPageRenderer for the print job.
-    controller.printPageRenderer = pageRender;
-    
-    /*
-     The method we use to present the printing UI depends on the type of UI idiom that is currently executing. Once we invoke one of these methods to present the printing UI, our application's direct involvement in printing is complete. Our custom printPageRenderer will have its methods invoked at the appropriate time by UIKit.
-     */
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        //      [controller presentFromBarButtonItem:self.printButton animated:YES completionHandler:completionHandler];  // iPad
-    }
-    else {
-        [controller presentAnimated:YES completionHandler:completionHandler];  // iPhone
-    }
-    
+    [self hideBtnSelectionInControllers];
+    ImagePageViewController *printViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"printimage"];
+    printViewController.datasource = self;
+    printViewController.delegate = self;
+    printViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self presentViewController:printViewController animated:YES completion:nil];
 
 }
 
@@ -282,17 +257,17 @@
        
 }
 
-#pragma mark - PrintWebViewControllerDelegate Methods
+#pragma mark - PrintBaseViewControllerDelegate Methods
 
-- (void) dismissPrintWebViewController:(PrintWebViewController *) printController{
+- (void) dismissPrintViewController:(UIViewController *) printController{
 
     [self showBtnSelectionInControllers];
     
 }
 
-#pragma mark - PrintWebViewControllerDataSource Methods
+#pragma mark - PrintBaseViewControllerDataSource Methods
 
-- (UIImage *) imageForPrintInsideWebViewForPrintWebViewController:(PrintWebViewController *) printController{
+- (UIImage *) imageForPrintViewController:(UIViewController *) printController{
     
     return [UIImage screenshotForView:self.container];
     

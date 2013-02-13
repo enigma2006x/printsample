@@ -1,20 +1,20 @@
 //
-//  PrintWebViewController.m
+//  PrintImageViewController.m
 //  PrintSample
 //
-//  Created by Antonio Trejo on 1/9/13.
+//  Created by Antonio Trejo on 1/25/13.
 //  Copyright (c) 2013 Antonio Trejo. All rights reserved.
 //
 
-#import "PrintWebViewController.h"
-#import "NSData+Base64.h"
-#import "WebViewPrintPageRenderer.h"
+#import "PrintImageViewController.h"
+#import "ImagePrintPageRenderer.h"
+#import "UIImage+Adds.h"
 
-@interface PrintWebViewController ()<UIWebViewDelegate>
+@interface PrintImageViewController ()
 
 @end
 
-@implementation PrintWebViewController
+@implementation PrintImageViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -28,12 +28,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    UIImage *image = [self.datasource imageForPrintViewController:self];
+    self.imageview.image = image;
     
-    NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"template" ofType:@"html"] isDirectory:NO];
-    
-    self.webview.delegate = self;
-    [self.webview loadRequest:[NSURLRequest requestWithURL:url]];
-
+	// Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning
@@ -42,15 +40,15 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)done:(id)sender {
-    
+
+- (IBAction)done:(id)sender{
     [self.delegate dismissPrintViewController:self];
     [self dismissViewControllerAnimated:YES completion:nil];
-    
+
 }
 
-- (IBAction)printAction:(id)sender {
-    
+- (IBAction)printAction:(id)sender{
+
     UIPrintInteractionController *controller = [UIPrintInteractionController sharedPrintController];
     if(!controller){
         NSLog(@"Couldn't get shared UIPrintInteractionController!");
@@ -70,44 +68,28 @@
     printInfo.outputType = UIPrintInfoOutputGeneral;
     printInfo.jobName = @"Print Sample";
     printInfo.duplex = UIPrintInfoDuplexLongEdge;
-
+    
     controller.printInfo = printInfo;
-
+    
     controller.showsPageRange = YES;
     
-    WebViewPrintPageRenderer *pageRender = [[WebViewPrintPageRenderer alloc] init];
+    ImagePrintPageRenderer *pageRender = [[ImagePrintPageRenderer alloc] init];
     pageRender.title = printInfo.jobName;
+
+    pageRender.headerHeight = 80;
+    pageRender.footerHeight = 20;
     
     if(self.printPositionSegment.selectedSegmentIndex == 0)
-        pageRender.printPosition = PrintPositionTopLeft;
+        pageRender.printPosition = PrintMosaicMode;
     else if(self.printPositionSegment.selectedSegmentIndex == 1)
         pageRender.printPosition = PrintPositionMiddleCenter;
     else if(self.printPositionSegment.selectedSegmentIndex == 2)
-        pageRender.printPosition = PrintPositionBottomRight;
+        pageRender.printPosition = PrintRandom;
     
+    pageRender.imageToPrint = self.imageview.image;
     
-    
-    UIViewPrintFormatter *viewFormatter = [self.webview viewPrintFormatter];    
-    [pageRender addPrintFormatter:viewFormatter startingAtPageAtIndex:0];
-    // Set our custom renderer as the printPageRenderer for the print job.
     controller.printPageRenderer = pageRender;
     [controller presentAnimated:YES completionHandler:completionHandler];
-    
 }
-
--(void)webViewDidFinishLoad:(UIWebView *)webView
-{
-    UIImage *image = [self.datasource imageForPrintViewController:self];
-    NSData *imageData = UIImagePNGRepresentation(image);
-    
-    NSString *imgB64 =  [NSString stringWithFormat: @"data:image/png;base64,%@", [imageData base64Encoding]];
-    
-    NSString *javascript = [NSString stringWithFormat:@"document.getElementById('image-holder').innerHTML = '<img src=\"%@\" alt=\"The Image\" />';", imgB64];
-
-    [self.webview stringByEvaluatingJavaScriptFromString:javascript];
-    
-}
-
-
 
 @end

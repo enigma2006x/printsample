@@ -10,6 +10,8 @@
 
 @interface ImagePrintPageRenderer : UIPrintPageRenderer
 
-@property (nonatomic, strong) UIImage *image;
+@property (nonatomic) PrintPosition printPosition;
+@property (nonatomic) NSString *title;
+@property (nonatomic, strong) UIImage *imageToPrint;
 
 @end

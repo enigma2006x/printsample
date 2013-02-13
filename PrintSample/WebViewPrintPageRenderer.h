@@ -10,4 +10,7 @@
 
 @interface WebViewPrintPageRenderer : UIPrintPageRenderer
 
+@property (nonatomic) PrintPosition printPosition;
+@property (nonatomic) NSString *title;
+
 @end
